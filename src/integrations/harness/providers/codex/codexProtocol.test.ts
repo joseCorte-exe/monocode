@@ -105,6 +105,17 @@ describe("runtimeModeToCodexConfig", () => {
 });
 
 describe("buildThreadStartParams / buildTurnStartParams", () => {
+  it("adds developer instructions only when there are some", () => {
+    const base = { cwd: "/repo", runtimeMode: "full-access" as const };
+    expect(
+      buildThreadStartParams({ ...base, developerInstructions: "draw" })
+        .developerInstructions,
+    ).toBe("draw");
+    expect(buildThreadStartParams(base)).not.toHaveProperty(
+      "developerInstructions",
+    );
+  });
+
   it("includes model and omits default service tier", () => {
     const thread = buildThreadStartParams({
       cwd: "/tmp/proj",

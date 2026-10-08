@@ -352,6 +352,12 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
     keywords: "full width chat bubble message",
   },
   {
+    id: "visuals",
+    section: "chat",
+    label: "When to draw",
+    keywords: "visual visuals chart charts diagram graph widget draw text",
+  },
+  {
     id: "anchor-prompts",
     section: "chat",
     label: "Anchor prompts to top",

@@ -37,6 +37,9 @@ import {
   resolveWorkspaceFileReference,
 } from "../../../shared/lib/paths";
 import type { EditorNavigation, OpenFileFn } from "../../search/model/search";
+import { VISUAL_LANGUAGE } from "../../../shared/visual/model/visualBlock";
+import { VisualBlock } from "../../../shared/visual/ui/VisualBlock";
+import { VisualHostProvider } from "../../../shared/visual/ui/VisualHostContext";
 import { remarkWorkspaceFileLinks } from "../../files/model/markdownFileLinks";
 import { isAtxHeadingLine } from "../../files/model/markdownSource";
 import { useColorScheme } from "../../../shared/hooks/useColorScheme";
@@ -339,6 +342,9 @@ function MarkdownCode({
       <MermaidBlock code={textContent(children)} incomplete={incomplete} />
     );
   }
+  if (fence.language.toLowerCase() === VISUAL_LANGUAGE) {
+    return <VisualBlock code={textContent(children)} incomplete={incomplete} />;
+  }
   const iconName =
     fence.fileName ??
     (fence.language ? fileNameForLanguage(fence.language) : "");
@@ -546,6 +552,18 @@ export const AgentMarkdown = memo(function AgentMarkdown({
   );
   const remoteMedia = !!allowRemoteMedia;
   const paced = usePacedText(text, !!streaming, revealOnMount);
+  const visualStreaming = !!streaming || paced.revealing;
+  const visualHost = useMemo(
+    () => ({
+      cwd,
+      onOpenFile,
+      streaming: visualStreaming,
+      renderText: (markdown: string) => (
+        <AgentMarkdown text={markdown} cwd={cwd} onOpenFile={onOpenFile} />
+      ),
+    }),
+    [cwd, onOpenFile, visualStreaming],
+  );
   const fading = useWordFading(!!streaming || paced.revealing);
   // Spans stay while words are fading so a word already on screen keeps its
   // element. Dropping one mid-fade would remount it and fade it again. Once
@@ -606,7 +624,7 @@ export const AgentMarkdown = memo(function AgentMarkdown({
   return (
     <RemoteMediaContext.Provider value={remoteMedia}>
       <FileOpenContext.Provider value={fileOpen}>
-        <>
+        <VisualHostProvider value={visualHost}>
           <Streamdown
             // Streamdown keeps a parsed tree while the text is unchanged, so
             // the plugin swap has to remount it once the fade is over.
@@ -639,7 +657,7 @@ export const AgentMarkdown = memo(function AgentMarkdown({
               onDismiss={() => setFileActionError(null)}
             />
           ) : null}
-        </>
+        </VisualHostProvider>
       </FileOpenContext.Provider>
     </RemoteMediaContext.Provider>
   );

@@ -100,6 +100,8 @@ export function buildThreadStartParams(input: {
   controlsAgents?: boolean;
   model?: string;
   serviceTier?: string;
+  /** Added to Codex's own instructions, which stay in place. */
+  developerInstructions?: string;
 }): Record<string, unknown> {
   const config = runtimeModeToCodexConfig(
     input.runtimeMode,
@@ -114,6 +116,9 @@ export function buildThreadStartParams(input: {
     ...(input.model ? { model: input.model } : {}),
     ...(input.serviceTier && input.serviceTier !== "default"
       ? { serviceTier: input.serviceTier }
+      : {}),
+    ...(input.developerInstructions
+      ? { developerInstructions: input.developerInstructions }
       : {}),
   };
 }

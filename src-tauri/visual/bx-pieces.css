@@ -1,0 +1,524 @@
+/* ---------- Composite pieces: cards, chips, flows, rows, lists, bars,
+   timelines and screen mockups. Plain classes, so a visual is mostly HTML. */
+
+.bx-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bx-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: 10px;
+}
+
+.bx-cols-2,
+.bx-cols-3,
+.bx-cols-4 {
+  display: grid;
+  gap: 10px;
+}
+
+.bx-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.bx-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.bx-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.bx-card {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--bx-hairline);
+  border-radius: 12px;
+  background: var(--bx-surface);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.bx-card.tight {
+  padding: 10px 12px;
+}
+
+.bx-card.accent {
+  border-color: color-mix(in srgb, var(--bx-accent) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bx-accent) 35%, transparent);
+}
+
+.bx-card-title {
+  margin: 0 0 6px;
+  color: var(--bx-fg);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.bx-card .bx-muted,
+.bx-note {
+  color: var(--bx-fg-2);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.bx-eyebrow {
+  margin-bottom: 2px;
+  color: var(--bx-accent);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Boxed metric tiles: bx.metrics(el, items, { cards: true }). */
+.bx-metrics.cards {
+  gap: 10px;
+}
+
+.bx-metrics.cards .bx-metric {
+  padding: 12px 14px;
+  border: 1px solid var(--bx-hairline);
+  border-radius: 12px;
+  background: var(--bx-surface);
+}
+
+.bx-metrics.cards .bx-metric:first-child {
+  padding-left: 14px;
+  border-left: 1px solid var(--bx-hairline);
+}
+
+.bx-metrics.cards .bx-metric-label {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Chips: a named thing (an issue, a step, a file). Tone by class. */
+.bx-chip {
+  --t: var(--bx-fg-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 3px 11px;
+  border: 1px solid var(--bx-hairline);
+  border-radius: 8px;
+  color: var(--bx-fg);
+  font-size: 13px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.bx-chip.blue,
+.bx-chip.orange,
+.bx-chip.teal,
+.bx-chip.pink,
+.bx-chip.amber,
+.bx-chip.violet,
+.bx-chip.green,
+.bx-chip.red {
+  border-color: color-mix(in srgb, var(--t) 45%, transparent);
+  background: color-mix(in srgb, var(--t) 14%, transparent);
+  color: var(--t);
+}
+
+.blue {
+  --t: var(--bx-c1);
+}
+.orange {
+  --t: var(--bx-c2);
+}
+.teal {
+  --t: var(--bx-c3);
+}
+.pink {
+  --t: var(--bx-c4);
+}
+.amber {
+  --t: var(--bx-warn);
+}
+.violet {
+  --t: var(--bx-c6);
+}
+.green {
+  --t: var(--bx-good);
+}
+.red {
+  --t: var(--bx-bad);
+}
+
+.bx-chip.ghost {
+  border-style: dashed;
+  color: var(--bx-fg-2);
+}
+
+.bx-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--t, var(--bx-fg-3));
+}
+
+/* A row of chips joined by arrows (then) and bars (at the same time). */
+.bx-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.bx-arrow::before {
+  content: "→";
+  color: var(--bx-fg-3);
+  font-size: 15px;
+}
+
+.bx-par::before {
+  content: "‖";
+  color: var(--bx-fg-3);
+  font-size: 13px;
+}
+
+/* Labeled sections: a title and a note on the left, content on the right. */
+.bx-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.bx-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 30%) minmax(0, 1fr);
+  gap: 8px 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--bx-hairline);
+}
+
+.bx-row:first-child {
+  border-top: 0;
+  padding-top: 4px;
+}
+
+.bx-row-title {
+  color: var(--bx-fg);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.bx-row-note {
+  margin-top: 2px;
+  color: var(--bx-fg-2);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.bx-row-body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Lists inside cards, with optional yes/no marks. */
+.bx-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.bx-list li + li {
+  margin-top: 4px;
+}
+
+.bx-checks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.bx-checks li {
+  position: relative;
+  padding-left: 22px;
+}
+
+.bx-checks li + li {
+  margin-top: 4px;
+}
+
+.bx-checks li::before {
+  position: absolute;
+  left: 2px;
+  color: var(--bx-fg-2);
+}
+
+.bx-checks li.yes::before {
+  content: "✓";
+  color: var(--bx-good);
+}
+.bx-checks li.no::before {
+  content: "✕";
+  color: var(--bx-fg-3);
+}
+.bx-checks li.warn::before {
+  content: "!";
+  color: var(--bx-warn);
+  font-weight: 600;
+}
+
+/* Progress per item: label, track, value. A dashed track is not started. */
+.bx-progress {
+  display: grid;
+  grid-template-columns: minmax(120px, 30%) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 16px;
+  font-size: 13px;
+}
+
+.bx-progress-label {
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.bx-progress-label small {
+  color: var(--bx-fg-2);
+  font-size: 12px;
+}
+
+.bx-progress-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: var(--bx-grid);
+}
+
+.bx-progress-track.planned {
+  border: 1px dashed var(--bx-axis);
+  background: transparent;
+}
+
+.bx-progress-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: var(--t, var(--bx-c1));
+  transform-origin: left center;
+}
+
+.bx-progress-value {
+  color: var(--bx-fg-2);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Timeline: one row per period, segments sized in %, a label after them. */
+.bx-timeline {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 16px;
+  font-size: 13px;
+}
+
+.bx-time {
+  color: var(--bx-fg-2);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.bx-segs {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.bx-seg {
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: var(--t, var(--bx-axis));
+  transform-origin: left center;
+}
+
+.bx-seg.idle {
+  background: var(--bx-axis);
+}
+
+.bx-segs > span:last-child:not(.bx-seg) {
+  min-width: 0;
+  margin-left: 4px;
+  color: var(--bx-fg);
+}
+
+body.bx-animate .bx-progress-fill,
+body.bx-animate .bx-seg {
+  animation: bx-grow 450ms var(--bx-ease-out) both;
+  animation-delay: calc(min(var(--i, 0) * 20ms, 300ms));
+}
+
+/* Screen mockups: structure, not pixels. */
+.bx-window {
+  overflow: hidden;
+  border: 1px solid var(--bx-hairline);
+  border-radius: 12px;
+  background: var(--bx-surface);
+  font-size: 13px;
+}
+
+.bx-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-bottom: 1px solid var(--bx-hairline);
+}
+
+.bx-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--bx-fg-2);
+  white-space: nowrap;
+}
+
+.bx-tab.active {
+  border-color: color-mix(in srgb, var(--bx-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--bx-accent) 10%, transparent);
+  color: var(--bx-fg);
+}
+
+.bx-url {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 4px 10px;
+  border: 1px solid var(--bx-hairline);
+  border-radius: 8px;
+  color: var(--bx-fg-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bx-split {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  min-height: 160px;
+}
+
+.bx-split > * + * {
+  border-left: 1px solid var(--bx-hairline);
+}
+
+.bx-pane {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+}
+
+.bx-pane-title {
+  color: var(--bx-fg-2);
+  font-size: 12px;
+}
+
+.bx-msg {
+  max-width: 90%;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--bx-grid);
+  line-height: 1.45;
+}
+
+.bx-msg.user {
+  align-self: flex-end;
+  background: color-mix(in srgb, var(--bx-accent) 16%, transparent);
+}
+
+.bx-ph {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  padding: 8px;
+  border: 1px dashed var(--bx-axis);
+  border-radius: 8px;
+  color: var(--bx-fg-3);
+  font-size: 12px;
+  text-align: center;
+}
+
+.bx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: var(--bx-accent);
+  color: var(--bx-on-accent);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.bx-btn.secondary {
+  border: 1px solid var(--bx-hairline);
+  background: transparent;
+  color: var(--bx-fg);
+}
+
+.bx-input {
+  padding: 6px 10px;
+  border: 1px solid var(--bx-hairline);
+  border-radius: 8px;
+  color: var(--bx-fg-3);
+}
+
+.bx-statusbar {
+  padding: 8px 12px;
+  border-top: 1px solid var(--bx-hairline);
+  color: var(--bx-fg-2);
+  font-size: 12px;
+}
+
+.bx-phone {
+  width: 180px;
+  max-width: 100%;
+  aspect-ratio: 9 / 19;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1.5px solid var(--bx-axis);
+  border-radius: 26px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 520px) {
+  .bx-cols-3,
+  .bx-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bx-row,
+  .bx-progress {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bx-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bx-split > * + * {
+    border-left: 0;
+    border-top: 1px solid var(--bx-hairline);
+  }
+}

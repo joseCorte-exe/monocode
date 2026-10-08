@@ -47,6 +47,7 @@ mod skills;
 pub mod ssh_askpass;
 #[cfg(target_os = "windows")]
 mod tray;
+mod visual;
 mod window;
 mod window_transfer;
 #[cfg(windows)]
@@ -224,6 +225,7 @@ pub fn run() {
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
+        .register_uri_scheme_protocol(visual::SCHEME, |_ctx, request| visual::handle(request))
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_filter(window::is_workspace_window)

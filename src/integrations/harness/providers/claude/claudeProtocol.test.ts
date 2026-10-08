@@ -103,6 +103,18 @@ describe("resolveClaudeApiModelId", () => {
 });
 
 describe("buildClaudeSpawnArgs", () => {
+  it("appends the app's instructions to interactive sessions only", () => {
+    const appendSystemPrompt = "<monocode_visuals>draw</monocode_visuals>";
+    const args = buildClaudeSpawnArgs({ appendSystemPrompt });
+    expect(args[args.indexOf("--append-system-prompt") + 1]).toBe(
+      appendSystemPrompt,
+    );
+    expect(
+      buildClaudeSpawnArgs({ isolated: true, appendSystemPrompt }),
+    ).not.toContain("--append-system-prompt");
+    expect(buildClaudeSpawnArgs({})).not.toContain("--append-system-prompt");
+  });
+
   it("speaks stream-json with stdio permissions like the Agent SDK", () => {
     const args = buildClaudeSpawnArgs({
       model: "claude-sonnet-5",

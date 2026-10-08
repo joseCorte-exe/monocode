@@ -1,4 +1,5 @@
 import { TurnNotReadyError } from "../../core/types";
+import { sessionVisualInstruction } from "../../core/visuals";
 import { nativeModelId } from "../../../../features/sessions/model/models";
 import { sameProviderAccountId } from "../../../../features/providers/model/providerAccounts";
 import {
@@ -728,6 +729,8 @@ async function ensureLive(input: HarnessSessionInput): Promise<Live> {
         controlsAgents: input.controlsAgents,
         model,
         serviceTier,
+        // How to draw ```visual blocks; a resumed thread keeps its own.
+        developerInstructions: sessionVisualInstruction() ?? undefined,
       });
       const opened = await rpc.request<{ thread?: { id?: string } }>(
         "thread/start",

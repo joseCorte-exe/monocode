@@ -1,0 +1,3 @@
+# The visual kit is read from disk on every request in development; editing
+# it must not restart the app.
+visual/

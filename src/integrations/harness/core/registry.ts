@@ -55,6 +55,10 @@ export type HarnessAdapter = {
   live: boolean;
   /** False when the harness cannot accept a follow-up while a turn is running. Default: same as live. */
   canSteer?: boolean;
+  /** True when the adapter hands the app's own instructions (how to draw
+   * visuals) to the agent when it starts it, so the first turn doesn't carry
+   * them. */
+  takesAppInstructions?: boolean;
   commands?: NativeCommandProvider;
   sendTurn(input: SendTurnInput): Promise<void>;
   /** Trigger provider-owned compaction outside MonoCode's normal user-turn path. */
@@ -195,6 +199,10 @@ export function registerHarness(adapter: HarnessAdapter): void {
 
 export function getHarness(id: HarnessId): HarnessAdapter | undefined {
   return adapters.get(id);
+}
+
+export function takesAppInstructions(id: HarnessId): boolean {
+  return getHarness(id)?.takesAppInstructions === true;
 }
 
 export function requireHarness(id: HarnessId): HarnessAdapter {

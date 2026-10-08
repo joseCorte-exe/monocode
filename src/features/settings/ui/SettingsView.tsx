@@ -1,4 +1,10 @@
 import { invoke } from "@tauri-apps/api/core";
+import {
+  loadVisualLevel,
+  saveVisualLevel,
+  subscribeVisualLevel,
+  VISUAL_LEVEL_DEFAULT,
+} from "../../../shared/visual/model/preference";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { ConnectionsSettings } from "../../connections/ui/ConnectionsSettings";
 import { ask } from "@tauri-apps/plugin-dialog";
@@ -969,6 +975,11 @@ function ChatPage() {
   const [modelControls, setModelControls] =
     useState<ModelControls>(loadModelControls);
   const [diffViewer, setDiffViewer] = useState<DiffViewer>(loadDiffViewer);
+  const visualLevel = useSyncExternalStore(
+    subscribeVisualLevel,
+    loadVisualLevel,
+    () => VISUAL_LEVEL_DEFAULT,
+  );
   const [formatOnSave, setFormatOnSave] = useState(loadFormatOnSave);
   const [composerRunner, setComposerRunner] = useState(loadComposerRunner);
   const [gridArcadeEnabled, setGridArcadeEnabled] = useState(
@@ -1055,6 +1066,28 @@ function ChatPage() {
             label="Anchor prompts to top"
             on={transcriptAnchor}
             onChange={onTranscriptAnchor}
+          />
+        </Row>
+      </Group>
+
+      <Group
+        title="Visuals"
+        description="Charts, diagrams and tables the agent draws inside its answer."
+      >
+        <Row
+          id="visuals"
+          label="When to draw"
+          description="When it helps: the agent draws when a visual explains better than text, at most one per answer you didn't ask for. When I ask: only when you ask. Off: everything as text, including visuals already in the conversation."
+        >
+          <Segmented
+            label="When to draw"
+            value={visualLevel}
+            options={[
+              { value: "off", label: "Off" },
+              { value: "asked", label: "When I ask" },
+              { value: "helps", label: "When it helps" },
+            ]}
+            onChange={saveVisualLevel}
           />
         </Row>
       </Group>

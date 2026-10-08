@@ -1,4 +1,5 @@
 import { TurnNotReadyError } from "../../core/types";
+import { sessionVisualInstruction } from "../../core/visuals";
 import { nativeModelId } from "../../../../features/sessions/model/models";
 import { sameProviderAccountId } from "../../../../features/providers/model/providerAccounts";
 import type {
@@ -1777,6 +1778,7 @@ function launchOptions(
   resume?: string;
   sessionId?: string;
   settings?: ClaudeCliSettings;
+  appendSystemPrompt?: string;
 } {
   const native = nativeModelId(input.model);
   const effortRaw = input.modelSettings?.effort;
@@ -1804,6 +1806,8 @@ function launchOptions(
     resume,
     sessionId: resume ? undefined : sessionId,
     settings: Object.keys(settings).length > 0 ? settings : undefined,
+    // How to draw ```visual blocks.
+    appendSystemPrompt: sessionVisualInstruction() ?? undefined,
   };
 }
 

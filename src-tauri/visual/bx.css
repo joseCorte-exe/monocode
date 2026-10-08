@@ -1,0 +1,360 @@
+/* Base for every visual. The --bx-* tokens are set by bx.js from the theme
+   the app sends; the fallbacks below are the dark theme. */
+:root {
+  --bx-fg: rgb(235, 235, 235);
+  --bx-fg-2: rgba(235, 235, 235, 0.6);
+  --bx-fg-3: rgba(235, 235, 235, 0.45);
+  --bx-grid: rgba(235, 235, 235, 0.08);
+  --bx-axis: rgba(235, 235, 235, 0.2);
+  --bx-hairline: rgba(235, 235, 235, 0.1);
+  --bx-tip-bg: rgb(23, 23, 23);
+  --bx-surface: rgba(235, 235, 235, 0.03);
+  --bx-on-accent: rgb(23, 23, 23);
+  --bx-good: #5bbd74;
+  --bx-warn: #d29922;
+  --bx-bad: #f07f77;
+  --bx-accent: #60aaf3;
+  --bx-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bx-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --bx-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --bx-c1: #60aaf3;
+  --bx-c2: #e28d4f;
+  --bx-c3: #00beb7;
+  --bx-c4: #de82b7;
+  --bx-c5: #bea333;
+  --bx-c6: #ab93ed;
+  color-scheme: dark;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+body {
+  color: var(--bx-fg);
+  font-family: var(--bx-font);
+  font-size: 12px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-wrap: pretty;
+}
+
+#bx-root {
+  display: flow-root;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 12px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+p {
+  margin: 6px 0;
+}
+
+code,
+.bx-path {
+  font-family: var(--bx-mono);
+  font-size: 11px;
+}
+
+a {
+  color: var(--bx-accent);
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+button {
+  font: inherit;
+  color: var(--bx-fg-2);
+  background: transparent;
+  border: 1px solid var(--bx-hairline);
+  border-radius: 6px;
+  padding: 3px 9px;
+  cursor: pointer;
+  transition-property: color, background-color, scale;
+  transition-duration: 120ms;
+  transition-timing-function: var(--bx-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button:hover {
+    color: var(--bx-fg);
+    background: var(--bx-grid);
+  }
+}
+
+button:active {
+  scale: 0.96;
+}
+
+button:focus-visible,
+[data-open]:focus-visible,
+[data-ask]:focus-visible {
+  outline: 2px solid var(--bx-accent);
+  outline-offset: 2px;
+}
+
+[data-open],
+[data-ask] {
+  cursor: pointer;
+}
+
+.bx-muted {
+  color: var(--bx-fg-2);
+}
+
+.bx-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Metrics: up to five tiles separated by hairlines, no boxes. */
+.bx-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  margin: 4px 0 8px;
+}
+
+.bx-metric {
+  padding: 2px 14px 4px;
+  border-left: 1px solid var(--bx-hairline);
+  min-width: 0;
+}
+
+.bx-metric:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.bx-metric-value {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.bx-metric-label {
+  color: var(--bx-fg-2);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.bx-metric-delta {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.bx-metric-delta[data-tone="good"] {
+  color: var(--bx-good);
+}
+
+.bx-metric-delta[data-tone="bad"] {
+  color: var(--bx-bad);
+}
+
+/* Ranked bars: 28px rows, number on the right, path cut in the middle. */
+.bx-bars {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(64px, 34%) auto;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.bx-bar-row {
+  display: contents;
+}
+
+.bx-bar-label {
+  height: 28px;
+  line-height: 28px;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.bx-bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bx-grid);
+  overflow: hidden;
+}
+
+.bx-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--bx-c1);
+  transform-origin: left center;
+}
+
+.bx-bar-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--bx-fg-2);
+}
+
+.bx-more {
+  margin-top: 8px;
+}
+
+/* Table: numbers right-aligned, 28px rows. */
+.bx-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.bx-table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--bx-fg-2);
+  font-size: 11px;
+  padding: 0 8px 6px 0;
+  border-bottom: 1px solid var(--bx-hairline);
+}
+
+.bx-table td {
+  height: 28px;
+  padding: 0 8px 0 0;
+  border-bottom: 1px solid var(--bx-grid);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bx-table .bx-right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Legend: 8px squares. */
+.bx-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 11px;
+  color: var(--bx-fg-2);
+  margin: 2px 0 6px;
+}
+
+.bx-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bx-legend i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* Diagrams in inline SVG. */
+svg {
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+}
+
+svg .node {
+  fill: var(--bx-grid);
+  stroke: var(--bx-axis);
+  stroke-width: 1;
+}
+
+svg .edge {
+  fill: none;
+  stroke: var(--bx-axis);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+svg .label,
+svg text {
+  fill: var(--bx-fg);
+  font-family: var(--bx-font);
+  font-size: 12px;
+}
+
+svg .label.muted {
+  fill: var(--bx-fg-2);
+  font-size: 11px;
+}
+
+svg .c1 {
+  fill: color-mix(in srgb, var(--bx-c1) 22%, transparent);
+  stroke: var(--bx-c1);
+}
+svg .c2 {
+  fill: color-mix(in srgb, var(--bx-c2) 22%, transparent);
+  stroke: var(--bx-c2);
+}
+svg .c3 {
+  fill: color-mix(in srgb, var(--bx-c3) 22%, transparent);
+  stroke: var(--bx-c3);
+}
+svg .c4 {
+  fill: color-mix(in srgb, var(--bx-c4) 22%, transparent);
+  stroke: var(--bx-c4);
+}
+svg .c5 {
+  fill: color-mix(in srgb, var(--bx-c5) 22%, transparent);
+  stroke: var(--bx-c5);
+}
+svg .c6 {
+  fill: color-mix(in srgb, var(--bx-c6) 22%, transparent);
+  stroke: var(--bx-c6);
+}
+
+/* Entrance for HTML and SVG pieces: a fade with a small rise, staggered by
+   --i. Plays once, only when the app asks for it. */
+@keyframes bx-enter {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}
+
+body.bx-animate .bx-enter {
+  animation: bx-enter 300ms var(--bx-ease-out) both;
+  animation-delay: calc(min(var(--i, 0) * 20ms, 300ms));
+}
+
+body.bx-animate .bx-bar-fill {
+  animation: bx-grow 450ms var(--bx-ease-out) both;
+  animation-delay: calc(min(var(--i, 0) * 20ms, 300ms));
+}
+
+@keyframes bx-grow {
+  from {
+    scale: 0 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.bx-animate .bx-enter,
+  body.bx-animate .bx-bar-fill {
+    animation: none;
+  }
+}
+
+svg .arrow {
+  fill: var(--bx-fg-3);
+}
